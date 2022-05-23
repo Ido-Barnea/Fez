@@ -30,7 +30,7 @@ public class Shell {
             reader.close();
             return text.toString();
         } catch (IOException e) {
-            if (e instanceof FileNotFoundException) System.out.printf("Error: Couldn't find file \"%s\"%n", filePath);
+            if (e instanceof FileNotFoundException) System.out.printf("Error: Couldn't find file \"%s\"", filePath);
             else e.printStackTrace();
             return "";
         }
@@ -78,9 +78,6 @@ public class Shell {
                 if (statements.size() == 1) System.out.println(statements.get(0));
                 else if (statements.size() > 1) System.out.println(statements);
             }
-
-            System.out.println("\n-        Finished       -");
-            System.out.println("- Returning to terminal -\n");
         }
     }
 
