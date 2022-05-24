@@ -33,5 +33,6 @@ public enum TokenType {
     RETRIEVE,
     NEWLINE,
     LCURLY,
-    RCURLY
+    RCURLY,
+    COLON
 }

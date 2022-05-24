@@ -102,6 +102,9 @@ public class Lexer {
                     case ',':
                         tokens.add(new Token(TokenType.COMMA, currentCharacterPosition.copy()));
                         break;
+                    case ':':
+                        tokens.add(new Token(TokenType.COLON, currentCharacterPosition.copy()));
+                        break;
                     default:
                         return new LexerResult(new IllegalCharacterException(currentCharacterPosition.copy(), "'" + currentCharacter + "'"));
                 }

@@ -591,7 +591,7 @@ public class Parser {
         }
 
         Node endValue;
-        if (currentToken.matches(TokenType.KEYWORD, ":")) {
+        if (currentToken.type() == TokenType.COLON) {
             forPosition = currentToken.copyPosition();
             advance();
             if (currentToken == null) {

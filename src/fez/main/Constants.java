@@ -12,7 +12,7 @@ public final class Constants {
     public static final String DIGITS = "0123456789";
     public static final String LETTERS = "qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM";
     public static final String POSSIBLE_IDENTIFIER_CHARACTERS = LETTERS + DIGITS + "_";
-    public static final List<String> KEYWORDS = Arrays.asList("var", "if", "else", "for", "in", ":", "while", "fun", "return");
+    public static final List<String> KEYWORDS = Arrays.asList("var", "if", "else", "for", "in", "while", "fun", "return");
 
     public static final Map<String, Subject> defaultVariables = new HashMap<>();
     static {
