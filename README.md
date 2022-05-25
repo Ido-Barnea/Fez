@@ -2,7 +2,7 @@
 The epic programming language called "Fez"
 
 # How to run the terminal? :computer:
-Simply double click on Launcher.bat to open the terminal.
+Simply double-click on Launcher.bat to open the terminal.
 
 # Fwog
 ```

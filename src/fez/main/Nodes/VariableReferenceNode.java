@@ -4,7 +4,7 @@ import fez.main.Objects.Token;
 
 public class VariableReferenceNode extends Node {
 
-    protected Token identifierToken;
+    protected final Token identifierToken;
 
     public VariableReferenceNode(Token identifierToken) {
         super(identifierToken.copyPosition());

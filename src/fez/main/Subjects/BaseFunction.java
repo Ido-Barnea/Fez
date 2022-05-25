@@ -7,7 +7,7 @@ import fez.main.Objects.ResultObjects.InterpreterResult;
 
 public abstract class BaseFunction extends Subject {
     
-    protected java.lang.String name;
+    protected final java.lang.String name;
 
     public BaseFunction(java.lang.String name) {
         this.name = name;

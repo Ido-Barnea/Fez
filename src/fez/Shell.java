@@ -1,6 +1,5 @@
 package fez;
 
-import java.awt.*;
 import java.io.*;
 import java.util.Objects;
 import java.util.Scanner;
@@ -38,6 +37,20 @@ public class Shell {
         }
     }
 
+    private static void runProgram(Runner runner, String filePath) {
+        String input = readProgram(filePath);
+
+        if (!input.equals("")) {
+            InterpreterResult result = runner.run(filePath, input, true);
+            if (result.exception() != null) System.out.println(result.exception());
+            else if (result.result() != null) {
+                List statements = (List) result.result();
+                if (statements.size() == 1) System.out.println(statements.get(0));
+                else if (statements.size() > 1) System.out.println(statements);
+            }
+        }
+    }
+
     private static void runTerminal() {
         Runner runner = new Runner();
         scanner = new Scanner(System.in);
@@ -67,20 +80,6 @@ public class Shell {
         }
 
         scanner.close();
-    }
-
-    private static void runProgram(Runner runner, String filePath) {
-        String input = readProgram(filePath);
-
-        if (!input.equals("")) {
-            InterpreterResult result = runner.run(filePath, input, true);
-            if (result.exception() != null) System.out.println(result.exception());
-            else if (result.result() != null) {
-                List statements = (List) result.result();
-                if (statements.size() == 1) System.out.println(statements.get(0));
-                else if (statements.size() > 1) System.out.println(statements);
-            }
-        }
     }
 
     public static void main(String[] args) {

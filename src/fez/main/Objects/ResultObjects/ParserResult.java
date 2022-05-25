@@ -2,7 +2,6 @@ package fez.main.Objects.ResultObjects;
 
 import fez.main.Exceptions.Exception;
 import fez.main.Nodes.ListNode;
-import fez.main.Nodes.Node;
 
 public class ParserResult extends BaseResult {
 

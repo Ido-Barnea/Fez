@@ -26,6 +26,11 @@ public final class Constants {
         defaultVariables.put("print", new BuiltInFunction("print"));
         defaultVariables.put("println", new BuiltInFunction("println"));
         defaultVariables.put("input", new BuiltInFunction("input"));
+        defaultVariables.put("abs", new BuiltInFunction("abs"));
+        defaultVariables.put("ceil", new BuiltInFunction("ceil"));
+        defaultVariables.put("floor", new BuiltInFunction("floor"));
+        defaultVariables.put("min", new BuiltInFunction("min"));
+        defaultVariables.put("max", new BuiltInFunction("max"));
     }
     public static final Map<String, Subject> variables = new HashMap<>(defaultVariables);
 

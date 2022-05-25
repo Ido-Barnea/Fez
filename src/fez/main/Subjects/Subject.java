@@ -27,10 +27,6 @@ public class Subject {
         this.position = position;
     }
 
-    public Position position() {
-        return position;
-    }
-
     public int intValue() {
         return 0;
     }

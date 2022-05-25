@@ -4,9 +4,9 @@ import fez.main.Objects.Position;
 
 public class Exception {
     
-    protected String errorName;
-    protected String errorMessage;
-    protected Position position;
+    protected final String errorName;
+    protected final String errorMessage;
+    protected final Position position;
 
     public Exception(Position position, String errorName, String errorMessage) {
         this.position = position;

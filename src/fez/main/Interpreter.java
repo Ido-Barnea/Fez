@@ -138,6 +138,8 @@ public class Interpreter {
         if (function.context() != null) functionContext.setParent(function.context());
         function.setContext(functionContext);
 
+        function.setPosition(functionCallNode.copyPosition());
+
         // Add arguments
         ArrayList<Subject> arguments = new ArrayList<>();
         for (int i = 0; i < functionCallNode.arguments().size(); i++) {

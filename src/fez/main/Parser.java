@@ -27,8 +27,6 @@ import fez.main.Objects.ResultObjects.ParserResult;
 import fez.main.Subjects.Int;
 import fez.main.Subjects.Number;
 
-import javax.swing.text.html.StyleSheet;
-
 public class Parser {
     private final ArrayList<Token> tokens;
     private int tokenIndex;
