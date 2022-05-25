@@ -446,17 +446,21 @@ public class Parser {
             if (currentToken == null || currentToken.type() != TokenType.LCURLY) {
                 setException(new InvalidSyntaxException(functionPosition, "Expected '->' or '{'"));
                 return null;
-            }
+            } else functionPosition = currentToken.copyPosition();
         }
 
-        if (currentToken == null) {
-            setException(new InvalidSyntaxException(functionPosition, "Expected statement"));
+        Node statements;
+        if (currentToken != null) {
+            if (currentToken.type() == TokenType.LCURLY) {
+                statements = getStatements(functionPosition);
+                advance();
+            }
+            else statements = expression();
+        } else {
+            setException(new InvalidSyntaxException(functionPosition, "Expected '{' or expression"));
             return null;
         }
 
-        functionPosition = currentToken.copyPosition();
-        Node statements = getStatements(functionPosition);
-        advance();
         if (statements == null) return null; // Exception is already checked in getStatements()
 
         return new FunctionDefinitionNode(name, parameters, statements, functionPosition);
@@ -538,9 +542,18 @@ public class Parser {
 
         whilePosition = currentToken.copyPosition();
         advance();
-        
-        Node statements = getStatements(whilePosition);
-        advance();
+
+        Node statements;
+        if (currentToken != null) {
+            if (currentToken.type() == TokenType.LCURLY) {
+                statements = getStatements(whilePosition);
+                advance();
+            }
+            else statements = expression();
+        } else {
+            setException(new InvalidSyntaxException(whilePosition, "Expected '{' or expression"));
+            return null;
+        }
 
         if (statements == null) return null; // Exception is already checked in getStatements()
         return new WhileNode(condition, statements);
@@ -617,15 +630,19 @@ public class Parser {
         forPosition = currentToken.copyPosition();
         advance();
 
-        if (currentToken == null) {
-            setException(new InvalidSyntaxException(forPosition, "Expected expression"));
+        Node statements;
+        if (currentToken != null) {
+            if (currentToken.type() == TokenType.LCURLY) {
+                statements = getStatements(forPosition);
+                advance();
+            }
+            else statements = expression();
+        } else {
+            setException(new InvalidSyntaxException(forPosition, "Expected '{' or expression"));
             return null;
         }
 
-        Node statements = getStatements(forPosition);
-
         if (statements == null) return null; // Exception is already set in getStatements()
-
         return new ForNode(variableName, startValue, endValue, statements);
     }
 
@@ -657,17 +674,35 @@ public class Parser {
 
         ifPosition = currentToken.copyPosition();
         advance();
-        
-        Node statements = getStatements(ifPosition);
-        advance();
+
+        Node statements;
+        if (currentToken != null) {
+            if (currentToken.type() == TokenType.LCURLY) {
+                statements = getStatements(ifPosition);
+                advance();
+            }
+            else statements = expression();
+        } else {
+            setException(new InvalidSyntaxException(ifPosition, "Expected '{' or expression"));
+            return null;
+        }
 
         // Give possibility for else keyword to be with one line space
         if (currentToken != null && currentToken.type() == TokenType.NEWLINE) advance();
         if (currentToken != null && currentToken.matches(TokenType.KEYWORD, "else")) {
             ifPosition = currentToken.copyPosition();
             advance(); // Skip else keyword
-            elseCase = getStatements(ifPosition);
-            advance();
+
+            if (currentToken != null) {
+                if (currentToken.type() == TokenType.LCURLY) {
+                    elseCase = getStatements(ifPosition);
+                    advance();
+                }
+                else elseCase = expression();
+            } else {
+                setException(new InvalidSyntaxException(ifPosition, "Expected '{' or expression"));
+                return null;
+            }
         } else retreat();
 
         return new IfNode(condition, statements, elseCase);
