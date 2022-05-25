@@ -9,6 +9,18 @@ Double-click on Fez.bat to open the terminal.
 
 Double-click on Fez.sh to open the terminal.
 
+# Built-in Functions
+| Function  | Description |
+| ------------- | ------------- |
+| print() | prints the value it is given |
+| println() | prints the value it is given in a new line |
+| input() | takes input from the user and returns it |
+| abs() | returns the absolute value of a number |
+| ceil() | rounds a number up to it's nearest integer and returns it as float |
+| floor() | rounds a number down to it's nearest integer and returns it as float |
+| min() | returns the smallest number out of two |
+| max() | returns the highest number out of two |
+
 # Fwog
 ```
 MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM
