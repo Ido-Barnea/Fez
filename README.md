@@ -12,7 +12,7 @@ Double-click on Fez.bat to open the terminal.
 
 Double-click on Fez.sh to open the terminal.
 
-# Built-in Functions
+# Built-in Functions :construction_worker:
 | Function  | Description |
 | ------------- | ------------- |
 | print() | prints the value it is given |
@@ -24,7 +24,7 @@ Double-click on Fez.sh to open the terminal.
 | min() | returns the smallest number out of two |
 | max() | returns the highest number out of two |
 
-# Syntax Quick Guide
+# Syntax Quick Guide :fast_forward:
 | Name  | How to write |
 | ------------- | ------------- |
 | variable declaration | var [identifier] = [expression] |
