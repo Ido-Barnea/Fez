@@ -131,21 +131,9 @@ public class Parser {
 
         if (currentToken != null) {
             // If BinaryOperationNode has more nodes
-            if (expression instanceof BinaryOperationNode && isAcceptedTokenType(currentToken, mathematicalAndExpressionAcceptedTokenTypes)) {
-                BinaryOperationNode binExpression = new BinaryOperationNode(expression);
-                TokenType operator = currentToken.type() == TokenType.MINUS ? TokenType.PLUS : currentToken.type();
-                if (isAcceptedTokenType(currentToken, expressionAcceptedTokenTypes)) advance();
-                expression = expression();
-                if (expression instanceof UnaryOperationNode) binExpression.setRight(expression);
-                else binExpression.setRight(expression);
-
-                binExpression.setOperator(operator);
-
-                return binExpression;
-            }
-
-            // If trying to retrieve an item from ListNode
-            expression = retrieveFromList(expression);
+            if (expression instanceof BinaryOperationNode && isAcceptedTokenType(currentToken, mathematicalAndExpressionAcceptedTokenTypes))
+                expression = binaryOperation(expression);
+            else expression = retrieveFromList(expression); // If trying to retrieve an item from ListNode
         }
 
         return expression;
@@ -311,6 +299,20 @@ public class Parser {
         }
 
         return left;
+    }
+
+    private Node binaryOperation(Node left) {
+        BinaryOperationNode binExpression = new BinaryOperationNode(left);
+        TokenType operator = currentToken.type() == TokenType.MINUS ? TokenType.PLUS : currentToken.type();
+        if (isAcceptedTokenType(currentToken, expressionAcceptedTokenTypes)) advance();
+
+        left = expression();
+        if (left instanceof UnaryOperationNode) binExpression.setRight(left);
+        else binExpression.setRight(left);
+
+        binExpression.setOperator(operator);
+
+        return binExpression;
     }
 
     private VariableAssignNode assignVariable() {
