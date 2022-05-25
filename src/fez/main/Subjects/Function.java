@@ -1,6 +1,8 @@
 package fez.main.Subjects;
 
 import java.util.ArrayList;
+
+import fez.main.Exceptions.RuntimeException;
 import fez.main.Interpreter;
 import fez.main.Nodes.Node;
 import fez.main.Objects.ResultObjects.InterpreterResult;
@@ -24,7 +26,13 @@ public class Function extends BaseFunction {
         InterpreterResult checkAndPopulateResult = checkAndPopulateArguments(parameters, arguments, context);
         if (checkAndPopulateResult.exception() != null) return checkAndPopulateResult;
 
-        InterpreterResult result = interpreter.visit(body, context);
+        InterpreterResult result;
+        // Make sure there isn't a stackoverflow exception
+        try {
+            result = interpreter.visit(body, context);
+        } catch (StackOverflowError e) {
+            result = new InterpreterResult(new RuntimeException(context, position, "StackOverflow"));
+        }
         if (result.result() != null && result.result() instanceof List statements) return new InterpreterResult(statements.get(0));
         return result;
     }
