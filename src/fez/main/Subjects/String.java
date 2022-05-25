@@ -2,6 +2,8 @@ package fez.main.Subjects;
 
 import fez.main.Objects.Position;
 import fez.main.Objects.ResultObjects.InterpreterResult;
+import static fez.main.Constants.TRUE;
+import static fez.main.Constants.FALSE;
 
 public class String extends Subject {
     
@@ -22,9 +24,9 @@ public class String extends Subject {
     }
 
     @Override
-    public Boolean equals(Subject other) {
-        if (other instanceof String) return new Boolean(string.equals(((String) other).value()));
-        return new Boolean(false);
+    public Int equals(Subject other) {
+        if (other instanceof String) return string.equals(((String) other).value()) ? TRUE : FALSE;
+        return FALSE;
     }
     
     @Override

@@ -22,7 +22,6 @@ import fez.main.Objects.Context;
 import fez.main.Objects.TokenType;
 import fez.main.Objects.ResultObjects.InterpreterResult;
 import fez.main.Subjects.BaseFunction;
-import fez.main.Subjects.Boolean;
 import fez.main.Subjects.Float;
 import fez.main.Subjects.Function;
 import fez.main.Subjects.Int;
@@ -153,7 +152,7 @@ public class Interpreter {
     }
 
     private InterpreterResult visitIfNode(IfNode ifNode, Context context) {
-        Boolean condition = (Boolean) visit(ifNode.condition(), context).result();
+        Int condition = (Int) visit(ifNode.condition(), context).result();
         if (condition.isTrue()) {
             Subject ifExpression = visit(ifNode.ifStatements(), context).result();
             return new InterpreterResult(ifExpression);
@@ -180,7 +179,7 @@ public class Interpreter {
     private InterpreterResult visitWhileNode(WhileNode whileNode, Context context) {
         InterpreterResult conditionVisitResult = visit(whileNode.condition(), context);
         if (conditionVisitResult.hasException()) return conditionVisitResult;
-        Boolean condition = (Boolean) conditionVisitResult.result();
+        Int condition = (Int) conditionVisitResult.result();
         
         while (condition.isTrue()) {
             InterpreterResult statementVisitResult = visit(whileNode.expression(), context);
@@ -188,7 +187,7 @@ public class Interpreter {
 
             conditionVisitResult = visit(whileNode.condition(), context);
             if (conditionVisitResult.hasException()) return conditionVisitResult;
-            else condition = (Boolean) conditionVisitResult.result();
+            else condition = (Int) conditionVisitResult.result();
         }
         return new InterpreterResult();
     }

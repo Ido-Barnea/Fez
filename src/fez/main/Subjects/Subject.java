@@ -39,8 +39,8 @@ public class Subject {
         return 0;
     }
 
-    public Boolean equals(Subject other) {
-        return new Boolean(false);
+    public Int equals(Subject other) {
+        return new Int(0);
     }
 
     public InterpreterResult add(Subject other, Position position) {

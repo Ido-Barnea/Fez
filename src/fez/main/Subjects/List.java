@@ -10,6 +10,7 @@ public class List extends Subject {
     public final ArrayList<Subject> elements;
 
     public List(ArrayList<Subject> elements) {
+        super();
         this.elements = elements;
     }
 

@@ -661,7 +661,7 @@ public class Parser {
         Node statements = getStatements(ifPosition);
         advance();
 
-        // Give possiblity for else keyword to be with one line space
+        // Give possibility for else keyword to be with one line space
         if (currentToken != null && currentToken.type() == TokenType.NEWLINE) advance();
         if (currentToken != null && currentToken.matches(TokenType.KEYWORD, "else")) {
             ifPosition = currentToken.copyPosition();

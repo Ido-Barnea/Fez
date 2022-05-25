@@ -3,6 +3,8 @@ package fez.main.Subjects;
 import fez.main.Exceptions.MathematicalOperationException;
 import fez.main.Objects.Position;
 import fez.main.Objects.ResultObjects.InterpreterResult;
+import static fez.main.Constants.TRUE;
+import static fez.main.Constants.FALSE;
 
 public class Int extends Number {
 
@@ -65,29 +67,49 @@ public class Int extends Number {
     }
 
     @Override
-    public Boolean equals(Subject other) {
-        if (other instanceof Number) return new Boolean(floatValue() == (other).floatValue());
-        return new Boolean(false);
+    public Int equals(Subject other) {
+        if (other instanceof Number) return floatValue() == (other).floatValue() ? TRUE : FALSE;
+        return FALSE;
     }
 
     @Override
     public InterpreterResult greaterThan(Subject other, Position position) {
-        return new InterpreterResult(new Boolean(intValue() > other.floatValue()));
+        return new InterpreterResult((intValue() > other.floatValue()) ? TRUE : FALSE);
     }
 
     @Override
     public InterpreterResult lessThan(Subject other, Position position) {
-        return new InterpreterResult(new Boolean(intValue() < other.floatValue()));
+        return new InterpreterResult((intValue() < other.floatValue()) ? TRUE : FALSE);
     }
 
     @Override
     public InterpreterResult greaterOrEqualTo(Subject other, Position position) {
-        return new InterpreterResult(new Boolean(intValue() >= other.floatValue()));
+        return new InterpreterResult((intValue() >= other.floatValue()) ? TRUE : FALSE);
     }
 
     @Override
     public InterpreterResult lessOrEqualTo(Subject other, Position position) {
-        return new InterpreterResult(new Boolean(intValue() <= other.floatValue()));
+        return new InterpreterResult((intValue() <= other.floatValue()) ? TRUE : FALSE);
+    }
+
+    // Boolean operations
+    public boolean isTrue() {
+        return value == 1;
+    }
+
+    @Override
+    public InterpreterResult and(Subject other, Position position) {
+        return new InterpreterResult((isTrue() && other.intValue() == 1) ? TRUE : FALSE);
+    }
+
+    @Override
+    public InterpreterResult or(Subject other, Position position) {
+        return new InterpreterResult((isTrue() || other.intValue() == 1) ? TRUE : FALSE);
+    }
+
+    @Override
+    public InterpreterResult not(Position position) {
+        return new InterpreterResult(isTrue() ? FALSE : TRUE);
     }
 
 }
