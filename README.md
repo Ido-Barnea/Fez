@@ -1,6 +1,9 @@
 # Fez :frog:
 The epic programming language called "Fez"
 
+# Requirements
+- Java
+
 # How to run the terminal? :computer:
 > Windows:
 
