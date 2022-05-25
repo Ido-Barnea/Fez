@@ -21,6 +21,20 @@ Double-click on Fez.sh to open the terminal.
 | min() | returns the smallest number out of two |
 | max() | returns the highest number out of two |
 
+# Syntax Quick Guide
+| Name  | How to write |
+| ------------- | ------------- |
+| variable declaration | var [identifier] = [expression] |
+| for loop #1 | for ( [identifier] in [end value]) expression |
+| for loop #2 | for ( [identifier] in [start value]:[end value] ) expression |
+| for loop #3 | for ( [identifier] in [start value]:[end value] ) { [statements] } |
+| while loop #1 | while ( [condition] ) expression |
+| while loop #2 | while ( [condition] ) { [statements] } |
+| function declaration #1 | fun [identifier] ( [parameters] ) -> expression |
+| function declaration #2 | fun [identifier] ( [parameters] ) { [statements] } |
+| if #1 | if ( [condition] ) [expression] |
+| if #2 | if ( [condition] ) { [statements] } |
+
 # Fwog
 ```
 MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM
