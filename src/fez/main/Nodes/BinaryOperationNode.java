@@ -4,7 +4,7 @@ import fez.main.Objects.TokenType;
 
 public class BinaryOperationNode extends Node {
 
-    private Node leftNode;
+    private final Node leftNode;
     private TokenType operator;
     private Node rightNode;
 

@@ -37,7 +37,7 @@ public class Lexer {
         
         while (currentCharacter != null) {
             if (" \t".indexOf(currentCharacter) != -1) advance(); // If character is space or tab
-            else if (DIGITS.indexOf(currentCharacter) != -1) tokens.add(createNumberToken()); // If character is a digit
+            else if ((DIGITS + ".").indexOf(currentCharacter) != -1) tokens.add(createNumberToken()); // If character is a digit
             else if (POSSIBLE_IDENTIFIER_CHARACTERS.indexOf(currentCharacter) != -1 || KEYWORDS.contains(currentCharacter.toString())) tokens.add(createIdentifier()); // If character is a letter
             else {
                 switch (currentCharacter) {
@@ -150,8 +150,12 @@ public class Lexer {
 
         while (currentCharacter != null && (DIGITS + ".").indexOf(currentCharacter) != -1) {
             if (currentCharacter == '.') {
-                if (dotCounter > 0) break;
+                if (dotCounter > 0) {
+                    setException(new InvalidSyntaxException(currentCharacterPosition.copy(), "Invalid number syntax"));
+                    return null;
+                }
                 dotCounter++;
+                if (numStr.isEmpty()) numStr.append("0");
                 numStr.append('.');
             } else numStr.append(currentCharacter);
 

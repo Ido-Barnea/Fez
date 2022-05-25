@@ -343,7 +343,7 @@ public class Parser {
         }
 
         Node expression = expression();
-        assert expression != null;
+        if (expression == null) return null;
         variableAssignmentPosition = expression.copyPosition();
         if (expression instanceof ForNode) {
             setException(new InvalidSyntaxException(variableAssignmentPosition, "For loop is forbidden as a variable value"));
@@ -372,7 +372,7 @@ public class Parser {
                 return null;
             }
 
-            assert expression != null;
+            if (expression == null) return null;
             BinaryOperationNode binaryOperation = new BinaryOperationNode(new VariableReferenceNode(identifierToken), TokenType.PLUS, expression);
             switch (type) {
                 case EQUAL: return new VariableReassignNode(identifierToken, expression);
