@@ -27,6 +27,8 @@ import fez.main.Objects.ResultObjects.ParserResult;
 import fez.main.Subjects.Int;
 import fez.main.Subjects.Number;
 
+import javax.swing.text.html.StyleSheet;
+
 public class Parser {
     private final ArrayList<Token> tokens;
     private int tokenIndex;
@@ -128,21 +130,8 @@ public class Parser {
         if (expression == null) return null; // term has error
 
         if (currentToken != null) {
-            // If trying to retrieve from list
-            if (currentToken.type() == TokenType.LSQUARE) {
-                BinaryOperationNode binExpression = new BinaryOperationNode(expression);
-                ListNode toRetrieveIndexesList = listStatement();
-
-                assert toRetrieveIndexesList != null;
-                if (toRetrieveIndexesList.value().size() == 0) {
-                    setException(new InvalidSyntaxException(toRetrieveIndexesList.copyPosition(), "Item index can't be null"));
-                    return null;
-                }
-
-                binExpression.setOperator(TokenType.RETRIEVE);
-                binExpression.setRight(toRetrieveIndexesList);
-                return binExpression;
-            } else if (expression instanceof BinaryOperationNode && isAcceptedTokenType(currentToken, mathematicalAndExpressionAcceptedTokenTypes)) { // if binary operation has more nodes
+            // If BinaryOperationNode has more nodes
+            if (expression instanceof BinaryOperationNode && isAcceptedTokenType(currentToken, mathematicalAndExpressionAcceptedTokenTypes)) {
                 BinaryOperationNode binExpression = new BinaryOperationNode(expression);
                 TokenType operator = currentToken.type() == TokenType.MINUS ? TokenType.PLUS : currentToken.type();
                 if (isAcceptedTokenType(currentToken, expressionAcceptedTokenTypes)) advance();
@@ -151,9 +140,21 @@ public class Parser {
                 else binExpression.setRight(expression);
 
                 binExpression.setOperator(operator);
-                
+
                 return binExpression;
             }
+
+            // If trying to retrieve an item from ListNode
+            expression = retrieveFromList(expression);
+        }
+
+        return expression;
+    }
+
+    private Node retrieveFromList(Node expression) {
+        if (currentToken != null && currentToken.type() == TokenType.LSQUARE) {
+            ListNode itemsToRetrieve = listStatement();
+            if (itemsToRetrieve != null) expression = retrieveFromList(new BinaryOperationNode(expression, TokenType.RETRIEVE, itemsToRetrieve));
         }
 
         return expression;

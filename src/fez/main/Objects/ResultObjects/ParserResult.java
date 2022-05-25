@@ -1,13 +1,14 @@
 package fez.main.Objects.ResultObjects;
 
 import fez.main.Exceptions.Exception;
+import fez.main.Nodes.ListNode;
 import fez.main.Nodes.Node;
 
 public class ParserResult extends BaseResult {
 
-    private final Node syntaxTree;
+    private final ListNode syntaxTree;
 
-    public ParserResult(Node syntaxTree, Exception exception) {
+    public ParserResult(ListNode syntaxTree, Exception exception) {
         super(exception);
         this.syntaxTree = syntaxTree;
     }
@@ -17,7 +18,7 @@ public class ParserResult extends BaseResult {
         this.syntaxTree = null;
     }
 
-    public Node syntaxTree() {
+    public ListNode syntaxTree() {
         return syntaxTree;
     }
     

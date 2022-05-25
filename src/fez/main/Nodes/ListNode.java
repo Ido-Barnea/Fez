@@ -12,8 +12,12 @@ public class ListNode extends Node {
         this.nodes = nodes;
     }
 
-    public ArrayList<Node> value() {
+    public ArrayList<Node> nodes() {
         return nodes;
     }
-    
+
+    @Override
+    public String toString() {
+        return nodes.toString();
+    }
 }

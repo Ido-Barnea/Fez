@@ -204,8 +204,8 @@ public class Interpreter {
 
     private InterpreterResult visitListNode(ListNode listNode, Context context) {
         ArrayList<Subject> elements = new ArrayList<>();
-        for (int i = 0; i < listNode.value().size(); i++) {
-            InterpreterResult getElementResult = visit(listNode.value().get(i), context);
+        for (int i = 0; i < listNode.nodes().size(); i++) {
+            InterpreterResult getElementResult = visit(listNode.nodes().get(i), context);
             if (getElementResult.hasException()) return getElementResult;
             else if (getElementResult.result() != null) elements.add(getElementResult.result());
         }
