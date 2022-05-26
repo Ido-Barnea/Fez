@@ -1,8 +1,42 @@
 # Fez :frog:
 The epic programming language called "Fez"
 
+# Requirements :cop:
+- Java
+
 # How to run the terminal? :computer:
-Simply double-click on Launcher.bat to open the terminal.
+> Windows:
+
+Double-click on Fez.bat to open the terminal.
+> Linux / Mac:
+
+Double-click on Fez.sh to open the terminal.
+
+# Built-in Functions :construction_worker:
+| Function  | Description |
+| ------------- | ------------- |
+| print() | prints the value it is given |
+| println() | prints the value it is given in a new line |
+| input() | takes input from the user and returns it |
+| abs() | returns the absolute value of a number |
+| ceil() | rounds a number up to it's nearest integer and returns it as float |
+| floor() | rounds a number down to it's nearest integer and returns it as float |
+| min() | returns the smallest number out of two |
+| max() | returns the highest number out of two |
+
+# Syntax Quick Guide :fast_forward:
+| Name  | How to write |
+| ------------- | ------------- |
+| variable declaration | var [identifier] = [expression] |
+| for loop #1 | for ( [identifier] in [end value]) expression |
+| for loop #2 | for ( [identifier] in [start value]:[end value] ) expression |
+| for loop #3 | for ( [identifier] in [start value]:[end value] ) { [statements] } |
+| while loop #1 | while ( [condition] ) expression |
+| while loop #2 | while ( [condition] ) { [statements] } |
+| function declaration #1 | fun [identifier] ( [parameters] ) -> expression |
+| function declaration #2 | fun [identifier] ( [parameters] ) { [statements] } |
+| if #1 | if ( [condition] ) [expression] |
+| if #2 | if ( [condition] ) { [statements] } |
 
 # Fwog
 ```
