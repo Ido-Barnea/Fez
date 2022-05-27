@@ -5,7 +5,6 @@ import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Arrays;
 import fez.Shell;
-import fez.main.Exceptions.InvalidSyntaxException;
 import fez.main.Exceptions.RuntimeException;
 import fez.main.Objects.Context;
 import fez.main.Objects.ResultObjects.InterpreterResult;
@@ -88,13 +87,13 @@ public class BuiltInFunction extends BaseFunction {
     ----------------------------------------  */
 
     public InterpreterResult print(Context executionContext) {
-        System.out.print(executionContext.variablesTable().get("value"));
+        System.out.print(executionContext.variablesTable().getValue("value"));
         executionContext.variablesTable().remove("value");
         return new InterpreterResult();
     }
 
     public InterpreterResult println(Context executionContext) {
-        System.out.println(executionContext.variablesTable().get("value"));
+        System.out.println(executionContext.variablesTable().getValue("value"));
         executionContext.variablesTable().remove("value");
         return new InterpreterResult();
     }
@@ -105,7 +104,7 @@ public class BuiltInFunction extends BaseFunction {
     }
 
     public InterpreterResult abs(Context executionContext) {
-        Subject subject = executionContext.variablesTable().get("value");
+        Subject subject = executionContext.variablesTable().getValue("value");
         executionContext.variablesTable().remove("value");
 
         if (subject instanceof Int) return new InterpreterResult(new Int(Math.abs(subject.intValue())));
@@ -114,7 +113,7 @@ public class BuiltInFunction extends BaseFunction {
     }
 
     public InterpreterResult ceil(Context executionContext) {
-        Subject subject = executionContext.variablesTable().get("value");
+        Subject subject = executionContext.variablesTable().getValue("value");
         executionContext.variablesTable().remove("value");
 
         if (subject instanceof Number) return new InterpreterResult(new Float((float) Math.ceil(subject.floatValue())));
@@ -122,7 +121,7 @@ public class BuiltInFunction extends BaseFunction {
     }
 
     public InterpreterResult floor(Context executionContext) {
-        Subject subject = executionContext.variablesTable().get("value");
+        Subject subject = executionContext.variablesTable().getValue("value");
         executionContext.variablesTable().remove("value");
 
         if (subject instanceof Number) return new InterpreterResult(new Float((float) Math.floor(subject.floatValue())));
@@ -130,8 +129,8 @@ public class BuiltInFunction extends BaseFunction {
     }
 
     public InterpreterResult min(Context executionContext) {
-        Subject first = executionContext.variablesTable().get("first");
-        Subject second = executionContext.variablesTable().get("second");
+        Subject first = executionContext.variablesTable().getValue("first");
+        Subject second = executionContext.variablesTable().getValue("second");
         executionContext.variablesTable().remove("first");
         executionContext.variablesTable().remove("second");
 
@@ -144,8 +143,8 @@ public class BuiltInFunction extends BaseFunction {
     }
 
     public InterpreterResult max(Context executionContext) {
-        Subject first = executionContext.variablesTable().get("first");
-        Subject second = executionContext.variablesTable().get("second");
+        Subject first = executionContext.variablesTable().getValue("first");
+        Subject second = executionContext.variablesTable().getValue("second");
         executionContext.variablesTable().remove("first");
         executionContext.variablesTable().remove("second");
 

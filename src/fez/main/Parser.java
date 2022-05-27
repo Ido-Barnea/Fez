@@ -1,8 +1,6 @@
 package fez.main;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Objects;
+import java.util.*;
 import java.util.function.Supplier;
 import fez.main.Exceptions.Exception;
 import fez.main.Exceptions.InvalidSyntaxException;
@@ -20,6 +18,7 @@ import fez.main.Nodes.VariableAssignNode;
 import fez.main.Nodes.VariableReassignNode;
 import fez.main.Nodes.VariableReferenceNode;
 import fez.main.Nodes.WhileNode;
+import fez.main.Objects.ModifierType;
 import fez.main.Objects.Position;
 import fez.main.Objects.Token;
 import fez.main.Objects.TokenType;
@@ -108,7 +107,8 @@ public class Parser {
 
     private Node expression() {
         if (currentToken == null) return null;
-        else if (currentToken.matches(TokenType.KEYWORD, "var")) return assignVariable();
+        else if (currentToken.matches(TokenType.KEYWORD, "var")) return assignVariable(new ArrayList<>());
+        else if (currentToken.matches(TokenType.KEYWORD, "const")) return assignVariable(new ArrayList<>(List.of(ModifierType.IMMUTABLE)));
         else if (currentToken.type().equals(TokenType.IDENTIFIER)) {
             Token variableName = currentToken;
             advance(); // Skip identifier
@@ -313,9 +313,9 @@ public class Parser {
         return binExpression;
     }
 
-    private VariableAssignNode assignVariable() {
+    private VariableAssignNode assignVariable(ArrayList<ModifierType> modifiers) {
         Position variableAssignmentPosition = currentToken.copyPosition();
-        advance();
+        advance(); // Skip var or val
 
         if (currentToken == null || currentToken.type() != TokenType.IDENTIFIER) {
             setException(new InvalidSyntaxException(variableAssignmentPosition, "Expected identifier"));
@@ -351,12 +351,12 @@ public class Parser {
             return null;
         }
 
-        return new VariableAssignNode(variableName, expression);
+        return new VariableAssignNode(variableName, expression, modifiers);
     }
 
     private VariableReassignNode reassignVariable(Token identifierToken, TokenType type) {
         Position reassignVariablePosition = currentToken.copyPosition();
-        advance(); // Skip '='
+        advance(); // Skip '=', '+=', '-='
 
         if (currentToken != null) {
             reassignVariablePosition = currentToken.copyPosition();

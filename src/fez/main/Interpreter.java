@@ -19,6 +19,7 @@ import fez.main.Nodes.VariableReassignNode;
 import fez.main.Nodes.VariableReferenceNode;
 import fez.main.Nodes.WhileNode;
 import fez.main.Objects.Context;
+import fez.main.Objects.ModifierType;
 import fez.main.Objects.TokenType;
 import fez.main.Objects.ResultObjects.InterpreterResult;
 import fez.main.Subjects.BaseFunction;
@@ -27,6 +28,7 @@ import fez.main.Subjects.Function;
 import fez.main.Subjects.Int;
 import fez.main.Subjects.List;
 import fez.main.Subjects.Subject;
+import java.util.AbstractMap.SimpleEntry;
 
 public class Interpreter {
     
@@ -50,11 +52,10 @@ public class Interpreter {
 
     private InterpreterResult visitVariableReferenceNode(VariableReferenceNode variableReferenceNode, Context context) {
         String variableName = variableReferenceNode.identifier().value().toString();
-        Subject variableValue = context.variablesTable().get(variableName);
 
         if (!context.variablesTable().variablesMap().containsKey(variableName)) // Variable key isn't in the variables table
             return new InterpreterResult(new RuntimeException(context, variableReferenceNode.copyPosition(), String.format("\"%s\" is not defined", variableName)));
-        else return new InterpreterResult(variableValue);
+        else return new InterpreterResult(context.variablesTable().getValue(variableName));
     }
 
     private InterpreterResult visitVariableAssignNode(VariableAssignNode variableAssignmentNode, Context context) {
@@ -76,7 +77,7 @@ public class Interpreter {
         if (variableValueSmartResult.hasException()) return variableValueSmartResult;
 
         Subject variableValue = variableValueSmartResult.result();
-        context.variablesTable().set(variableName, variableValue);
+        context.variablesTable().set(variableName, new SimpleEntry<>(variableValue, variableAssignmentNode.modifiers()));
 
         return new InterpreterResult();
     }
@@ -94,6 +95,17 @@ public class Interpreter {
                     String.format("\"%s\" is not defined", variableName)
                 )
             );
+        } else {
+            ArrayList<ModifierType> modifiers = context.variablesTable().getModifiers(variableName);
+            if (modifiers.contains(ModifierType.IMMUTABLE)) {
+                return new InterpreterResult(
+                        new RuntimeException(
+                                context,
+                                variableReassignmentNode.copyPosition(),
+                                String.format("Cannot change value of constant \"%s\"", variableName)
+                        )
+                );
+            }
         }
 
         InterpreterResult variableValueSmartResult = visit(variableValueNode, context);

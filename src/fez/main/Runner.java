@@ -12,7 +12,7 @@ public class Runner {
     public InterpreterResult run(String fileName, String text, Boolean reset) {
         Context context = new Context(fileName);
         if (reset) context.setVariablesTable(new VariablesTable(new HashMap<>(defaultVariables)));
-        else context.setVariablesTable(new VariablesTable(variables));
+        else context.setVariablesTable(new VariablesTable(globalVariables));
         
         // generate tokens
         Lexer lexer = new Lexer(fileName, text);

@@ -11,12 +11,6 @@ public class Shell {
 
     public static Scanner scanner;
 
-    /**
-     * reads a fez program file.
-     * note - the filePath has to be an absolute path
-     * @param filePath the path of the fez program
-     * @return the content of the fez program
-     */
     private static String readProgram(String filePath) {
         try {
             BufferedReader reader = new BufferedReader(new FileReader(filePath));
