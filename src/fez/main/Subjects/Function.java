@@ -29,10 +29,11 @@ public class Function extends BaseFunction {
         InterpreterResult result;
         // Make sure there isn't a stackoverflow exception
         try {
-            result = interpreter.visit(body, context);
+            result = interpreter.visitFunction(body, context);
         } catch (StackOverflowError e) {
             result = new InterpreterResult(new RuntimeException(context, position, "StackOverflow"));
         }
+
         if (result.result() != null && result.result() instanceof List statements) return new InterpreterResult(statements.get(0));
         return result;
     }

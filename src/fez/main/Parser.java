@@ -4,20 +4,7 @@ import java.util.*;
 import java.util.function.Supplier;
 import fez.main.Exceptions.Exception;
 import fez.main.Exceptions.InvalidSyntaxException;
-import fez.main.Nodes.BinaryOperationNode;
-import fez.main.Nodes.ForNode;
-import fez.main.Nodes.FunctionCallNode;
-import fez.main.Nodes.FunctionDefinitionNode;
-import fez.main.Nodes.IfNode;
-import fez.main.Nodes.ListNode;
-import fez.main.Nodes.Node;
-import fez.main.Nodes.NumberNode;
-import fez.main.Nodes.StringNode;
-import fez.main.Nodes.UnaryOperationNode;
-import fez.main.Nodes.VariableAssignNode;
-import fez.main.Nodes.VariableReassignNode;
-import fez.main.Nodes.VariableReferenceNode;
-import fez.main.Nodes.WhileNode;
+import fez.main.Nodes.*;
 import fez.main.Objects.ModifierType;
 import fez.main.Objects.Position;
 import fez.main.Objects.Token;
@@ -107,8 +94,10 @@ public class Parser {
 
     private Node expression() {
         if (currentToken == null) return null;
-        else if (currentToken.matches(TokenType.KEYWORD, "var")) return assignVariable(new ArrayList<>());
-        else if (currentToken.matches(TokenType.KEYWORD, "const")) return assignVariable(new ArrayList<>(List.of(ModifierType.IMMUTABLE)));
+        else if (currentToken.type() == TokenType.KEYWORD) {
+            Node result = keywordAction(currentToken.value().toString());
+            if (result != null) return result; // Return only if result is valid
+        }
         else if (currentToken.type().equals(TokenType.IDENTIFIER)) {
             Token variableName = currentToken;
             advance(); // Skip identifier
@@ -121,8 +110,6 @@ public class Parser {
             }
             retreat(); // Identifier is used to access a variable
         }
-        else if (currentToken.matches(TokenType.KEYWORD, "while")) return whileStatement();
-        else if (currentToken.matches(TokenType.KEYWORD, "for")) return forStatement();
 
         Node expression = binaryOperation(this::comparisonExpression, expressionAcceptedTokenTypes);
         if (expression == null) return null; // term has error
@@ -137,6 +124,26 @@ public class Parser {
         return expression;
     }
 
+    private Node keywordAction(String keyword) {
+        switch (keyword) {
+            case "var": return assignVariable(new ArrayList<>());
+            case "const": return assignVariable(new ArrayList<>(List.of(ModifierType.IMMUTABLE)));
+            case "while": return whileStatement();
+            case "for": return forStatement();
+            case "return": {
+                advance();
+                Node returnValue = expression();
+                if (returnValue == null) {
+                    retreat();
+                    return null;
+                }
+                else return new ReturnNode(returnValue);
+            }
+        }
+
+        return null;
+    }
+
     private Node retrieveFromList(Node expression) {
         if (currentToken != null && currentToken.type() == TokenType.LSQUARE) {
             ListNode itemsToRetrieve = listStatement();
@@ -147,7 +154,7 @@ public class Parser {
     }
 
     private Node comparisonExpression() {
-        if (currentToken.type() == TokenType.NOT) {
+        if (currentToken != null && currentToken.type() == TokenType.NOT) {
             advance();
             Node comparisonExpression = comparisonExpression();
             return new UnaryOperationNode(TokenType.NOT, comparisonExpression);
@@ -208,7 +215,7 @@ public class Parser {
         Node atom = atom();
         if (currentToken != null && currentToken.type() == TokenType.LPAREN) {
             ArrayList<Node> arguments = new ArrayList<>();
-            advance();
+            advance(); // Skip '('
 
             if (currentToken == null) {
                 setException(new InvalidSyntaxException(callPosition, "Expected argument or ')'"));

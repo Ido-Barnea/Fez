@@ -38,7 +38,7 @@ public abstract class BaseFunction extends Subject {
             java.lang.String parameterName = parameters.get(i);
             Subject argumentValue = arguments.get(i);
 
-            argumentValue.setContext(executionContext);
+            if (argumentValue != null) argumentValue.setContext(executionContext);
             executionContext.variablesTable().set(parameterName, argumentValue);
         }
     }

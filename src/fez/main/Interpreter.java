@@ -4,20 +4,7 @@ import java.util.ArrayList;
 import fez.main.Exceptions.InvalidSyntaxException;
 import fez.main.Exceptions.NullPointerException;
 import fez.main.Exceptions.RuntimeException;
-import fez.main.Nodes.BinaryOperationNode;
-import fez.main.Nodes.ForNode;
-import fez.main.Nodes.FunctionCallNode;
-import fez.main.Nodes.FunctionDefinitionNode;
-import fez.main.Nodes.IfNode;
-import fez.main.Nodes.ListNode;
-import fez.main.Nodes.Node;
-import fez.main.Nodes.NumberNode;
-import fez.main.Nodes.StringNode;
-import fez.main.Nodes.UnaryOperationNode;
-import fez.main.Nodes.VariableAssignNode;
-import fez.main.Nodes.VariableReassignNode;
-import fez.main.Nodes.VariableReferenceNode;
-import fez.main.Nodes.WhileNode;
+import fez.main.Nodes.*;
 import fez.main.Objects.Context;
 import fez.main.Objects.ModifierType;
 import fez.main.Objects.TokenType;
@@ -34,6 +21,7 @@ public class Interpreter {
     
     public InterpreterResult visit(Node node, Context context) {
         if (node == null) return new InterpreterResult();
+        else if (node instanceof ReturnNode) return visit(((ReturnNode) node).returnValue(), context);
         else if (node instanceof VariableReassignNode) return visitVariableReassignNode((VariableReassignNode) node, context);
         else if (node instanceof VariableAssignNode) return visitVariableAssignNode((VariableAssignNode) node, context);
         else if (node instanceof VariableReferenceNode) return visitVariableReferenceNode((VariableReferenceNode) node, context);
@@ -47,7 +35,14 @@ public class Interpreter {
         else if (node instanceof ListNode) return visitListNode((ListNode) node, context);
         else if (node instanceof FunctionDefinitionNode) return visitFunctionDefinitionNode((FunctionDefinitionNode) node, context);
         else if (node instanceof FunctionCallNode) return visitFunctionCallNode((FunctionCallNode) node, context);
-        else return new InterpreterResult(new InvalidSyntaxException(node.copyPosition(), "Expected Mathematical Operation"));
+        else return new InterpreterResult(new InvalidSyntaxException(node.copyPosition(), "Expected Operation"));
+    }
+
+    public InterpreterResult visitFunction(Node node, Context context) {
+        if (node == null) return new InterpreterResult();
+        else if (node instanceof ReturnNode) return visit(((ReturnNode) node).returnValue(), context);
+        else if (node instanceof ListNode) return visitFunctionListNode((ListNode) node, context);
+        return new InterpreterResult();
     }
 
     private InterpreterResult visitVariableReferenceNode(VariableReferenceNode variableReferenceNode, Context context) {
@@ -142,6 +137,15 @@ public class Interpreter {
     private InterpreterResult visitFunctionCallNode(FunctionCallNode functionCallNode, Context context) {
         InterpreterResult valueToCall = visit(functionCallNode.functionNode(), context);
         if (valueToCall.hasException()) return new InterpreterResult(valueToCall.exception());
+        if (valueToCall.result() == null) {
+            return new InterpreterResult(
+                    new NullPointerException(
+                            context,
+                            functionCallNode.copyPosition(),
+                            "Cannot perform operation on null value"
+                    )
+            );
+        }
 
         BaseFunction function = ((BaseFunction) valueToCall.result()).copy();
 
@@ -218,14 +222,23 @@ public class Interpreter {
 
     private InterpreterResult visitListNode(ListNode listNode, Context context) {
         ArrayList<Subject> elements = new ArrayList<>();
-        for (int i = 0; i < listNode.nodes().size(); i++) {
-            InterpreterResult getElementResult = visit(listNode.nodes().get(i), context);
+        for (Node node : listNode.nodes()) {
+            InterpreterResult getElementResult = visit(node, context);
             if (getElementResult.hasException()) return getElementResult;
             else if (getElementResult.result() != null) elements.add(getElementResult.result());
         }
 
         if (elements.size() == 0) return new InterpreterResult();
         return new InterpreterResult(new List(elements));
+    }
+
+    private InterpreterResult visitFunctionListNode(ListNode listNode, Context context) {
+        for (Node node : listNode.nodes()) {
+            InterpreterResult getElementResult = visit(node, context);
+            if (node instanceof ReturnNode) return getElementResult;
+        }
+
+        return new InterpreterResult();
     }
 
     private InterpreterResult visitBinaryOperationNode(BinaryOperationNode binaryOperationNode, Context context) {
@@ -239,10 +252,24 @@ public class Interpreter {
         Subject left = leftInterpreterSmartResult.result();
         Subject right = rightInterpreterSmartResult.result();
 
-        if (left == null) return new InterpreterResult(
-            new NullPointerException(context, binaryOperationNode.leftNode().copyPosition(), "Can't perform operation on null pointer"));
-        else if (right == null) return new InterpreterResult(
-            new NullPointerException(context, binaryOperationNode.rightNode().copyPosition(), "Can't perform operation on null pointer"));
+        if (left == null) {
+            return new InterpreterResult(
+                    new NullPointerException(
+                            context,
+                            binaryOperationNode.leftNode().copyPosition(),
+                            "Cannot perform operation on null value"
+                    )
+            );
+        }
+        else if (right == null) {
+            return new InterpreterResult(
+                    new NullPointerException(
+                            context,
+                            binaryOperationNode.rightNode().copyPosition(),
+                            "Cannot perform operation on null value"
+                    )
+            );
+        }
 
         return switch (binaryOperationNode.operator()) {
             case PLUS -> left.add(right, binaryOperationNode.copyPosition());
@@ -260,8 +287,7 @@ public class Interpreter {
             case AND -> left.and(right, binaryOperationNode.copyPosition());
             case OR -> left.or(right, binaryOperationNode.copyPosition());
             case RETRIEVE -> left.retrieve(right, binaryOperationNode.copyPosition());
-            default ->
-                    new InterpreterResult(new InvalidSyntaxException(binaryOperationNode.leftNode().copyPosition(), "Illegal Operation"));
+            default -> new InterpreterResult(new InvalidSyntaxException(binaryOperationNode.leftNode().copyPosition(), "Illegal Operation"));
         };
     }
 

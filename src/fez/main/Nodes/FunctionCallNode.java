@@ -21,9 +21,4 @@ public class FunctionCallNode extends Node {
     public ArrayList<Node> arguments() {
         return arguments;
     }
-
-    @Override
-    public String toString() {
-        return functionNode.toString();
-    }
 }
