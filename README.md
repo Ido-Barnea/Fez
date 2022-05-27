@@ -1,18 +1,13 @@
 # Fez :frog:
 The epic programming language called "Fez"
 
-# Requirements :cop:
+# Requirements
 - Java
 
-# How to run the terminal? :computer:
-> Windows:
+# How to run the shell?
+Open Fez.exe to start the terminal.
 
-Double-click on Fez.bat to open the terminal.
-> Linux / Mac:
-
-Double-click on Fez.sh to open the terminal.
-
-# Built-in Functions :construction_worker:
+# Built-in Functions
 | Function  | Description |
 | ------------- | ------------- |
 | print() | prints the value it is given |
@@ -24,7 +19,7 @@ Double-click on Fez.sh to open the terminal.
 | min() | returns the smallest number out of two |
 | max() | returns the highest number out of two |
 
-# Syntax Quick Guide :fast_forward:
+# Syntax Quick Guide
 | Name  | How to write |
 | ------------- | ------------- |
 | variable declaration | var [identifier] = [expression] |
