@@ -1,0 +1,8 @@
+fun a(x) {
+    return x+1
+    println("----")
+}
+
+println(a(1))
+
+// C:\Users\dodob\IdeaProjects\Fez\src\fez\a.txt
