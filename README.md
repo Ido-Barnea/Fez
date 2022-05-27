@@ -23,6 +23,7 @@ Open Fez.exe to start the terminal.
 | Name  | How to write |
 | ------------- | ------------- |
 | variable declaration | var [identifier] = [expression] |
+| constant declaration | const [identifier] = [expression] |
 | for loop #1 | for ( [identifier] in [end value]) expression |
 | for loop #2 | for ( [identifier] in [start value]:[end value] ) expression |
 | for loop #3 | for ( [identifier] in [start value]:[end value] ) { [statements] } |
