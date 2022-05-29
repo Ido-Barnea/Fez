@@ -31,6 +31,7 @@ Open Fez.exe to start the terminal.
 | while loop #2 | while ( [condition] ) { [statements] } |
 | function declaration #1 | fun [identifier] ( [parameters] ) -> expression |
 | function declaration #2 | fun [identifier] ( [parameters] ) { [statements] } |
+| return from a function | return [ expression ] |
 | if #1 | if ( [condition] ) [expression] |
 | if #2 | if ( [condition] ) { [statements] } |
 
