@@ -2,6 +2,7 @@ package fez.main.Subjects;
 
 import java.util.ArrayList;
 import fez.main.Exceptions.IndexOutOfBoundException;
+import fez.main.Exceptions.RuntimeException;
 import fez.main.Objects.Position;
 import fez.main.Objects.ResultObjects.InterpreterResult;
 
@@ -27,8 +28,9 @@ public class List extends Subject {
             try {
                 if (indexList.size() > 1) { // If multiple values are requested
                     ArrayList<Subject> results = new ArrayList<>();
-                    for (int i = 0; i < indexList.size(); i++)
-                        results.add(elements.get(indexList.get(i).intValue())); // Add results to a new arrayList
+                    for (int i = 0; i < indexList.size(); i++) { // Add results to a new arrayList
+                        results.add(elements.get(indexList.get(i).intValue()));
+                    }
                     
                     return new InterpreterResult(new List(results)); // return new list with multiple values
                 } else { // If only one value is requested
@@ -47,6 +49,16 @@ public class List extends Subject {
         }
 
         return illegalOperation(position);
+    }
+
+    public InterpreterResult updateItem(List indexes, Subject item) {
+        for (Subject subject : indexes.elements) {
+            int index = subject.intValue();
+            if (index == -1) return new InterpreterResult(new RuntimeException(context, position, "Item not found."));
+            else elements.set(index, item);
+        }
+
+        return new InterpreterResult(this);
     }
 
     public int size() {

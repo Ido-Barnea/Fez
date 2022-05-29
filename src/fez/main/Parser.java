@@ -118,7 +118,17 @@ public class Parser {
             // If BinaryOperationNode has more nodes
             if (expression instanceof BinaryOperationNode && isAcceptedTokenType(currentToken, mathematicalAndExpressionAcceptedTokenTypes))
                 expression = binaryOperation(expression);
-            else expression = retrieveFromList(expression); // If trying to retrieve an item from ListNode
+            else { // If trying to retrieve an item from ListNode
+                expression = retrieveFromList(expression);
+
+                // if trying to set the value of an item in the list
+                if (currentToken != null && currentToken.type() == TokenType.EQUAL && expression instanceof BinaryOperationNode) {
+                    Node list = ((BinaryOperationNode) expression).leftNode();
+                    Node indexesToAssign = ((BinaryOperationNode) expression).rightNode();
+                    advance(); // Skip '='
+                    expression = new ListItemAssignNode(list, indexesToAssign, expression());
+                }
+            }
         }
 
         return expression;
@@ -252,7 +262,7 @@ public class Parser {
 
     private Node atom() {
         Token token = currentToken;
-        
+
         if (token != null) {
             if (token.type() == TokenType.IDENTIFIER) {
                 advance();

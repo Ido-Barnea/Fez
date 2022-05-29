@@ -33,6 +33,7 @@ public class Interpreter {
         else if (node instanceof NumberNode) return visitNumberNode((NumberNode) node, context);
         else if (node instanceof StringNode) return visitStringNode((StringNode) node);
         else if (node instanceof ListNode) return visitListNode((ListNode) node, context);
+        else if (node instanceof ListItemAssignNode) return visitListItemAssignNode((ListItemAssignNode) node, context);
         else if (node instanceof FunctionDefinitionNode) return visitFunctionDefinitionNode((FunctionDefinitionNode) node, context);
         else if (node instanceof FunctionCallNode) return visitFunctionCallNode((FunctionCallNode) node, context);
         else return new InterpreterResult(new InvalidSyntaxException(node.copyPosition(), "Expected Operation"));
@@ -232,6 +233,16 @@ public class Interpreter {
         return new InterpreterResult(new List(elements));
     }
 
+    private InterpreterResult visitListItemAssignNode(ListItemAssignNode listItemAssignNode, Context context) {
+        List list = (List) visit(listItemAssignNode.listNode(), context).result();
+        List indexes = (List) visit(listItemAssignNode.nodeToAssign(), context).result();
+        Subject newValue = visit(listItemAssignNode.valueNode(), context).result();
+
+        InterpreterResult listItemUpdateResult = list.updateItem(indexes, newValue);
+        if (listItemUpdateResult.hasException()) return listItemUpdateResult;
+        else return new InterpreterResult();
+    }
+
     private InterpreterResult visitFunctionListNode(ListNode listNode, Context context) {
         for (Node node : listNode.nodes()) {
             InterpreterResult getElementResult = visit(node, context);
@@ -252,6 +263,7 @@ public class Interpreter {
         Subject left = leftInterpreterSmartResult.result();
         Subject right = rightInterpreterSmartResult.result();
 
+        // Check for null point exceptions
         if (left == null) {
             return new InterpreterResult(
                     new NullPointerException(
