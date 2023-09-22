@@ -1,5 +1,5 @@
 # Fez :frog:
-The epic programming language called "Fez".
+The epic programming language known as "Fez".
 
 # Requirements
 - Java
