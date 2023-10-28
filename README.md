@@ -2,7 +2,7 @@
 The most epic programming language in existence - "Fez".
 
 # :dart: Requirements
-- Java
+- Installation of the Java programming language.
 
 # :toolbox: How to run the shell?
 Open Fez.exe to start the terminal.
