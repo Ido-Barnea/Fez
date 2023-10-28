@@ -1,25 +1,25 @@
-# Fez :frog:
-The epic programming language known as "Fez".
+# :frog: Fez
+The most epic programming language in existence - "Fez".
 
-# Requirements
+# :dart: Requirements
 - Java
 
-# How to run the shell?
+# :toolbox: How to run the shell?
 Open Fez.exe to start the terminal.
 
-# Built-in Functions
+# :notebook_with_decorative_cover: Built-in Functions
 | Function  | Description |
 | ------------- | ------------- |
 | print() | prints the value it is given |
 | println() | prints the value it is given in a new line |
 | input() | takes input from the user and returns it |
 | abs() | returns the absolute value of a number |
-| ceil() | rounds a number up to it's nearest integer and returns it as float |
-| floor() | rounds a number down to it's nearest integer and returns it as float |
+| ceil() | rounds a number up to its nearest integer and returns it as float |
+| floor() | rounds a number down to its nearest integer and returns it as float |
 | min() | returns the smallest number out of two |
 | max() | returns the highest number out of two |
 
-# Syntax Quick Guide
+# :pencil2: Syntax Quick Guide
 | Name  | How to write |
 | ------------- | ------------- |
 | variable declaration | var [identifier] = [expression] |
@@ -35,7 +35,7 @@ Open Fez.exe to start the terminal.
 | if #1 | if ( [condition] ) [expression] |
 | if #2 | if ( [condition] ) { [statements] } |
 
-# Fwog
+# :star2: The Brilliant Face of The Language - Fwog
 ```
 MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM
 MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM
