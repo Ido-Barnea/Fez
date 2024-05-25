@@ -1,13 +1,13 @@
-# :frog: Fez
+# Fez :frog:
 The most epic programming language in existence - "Fez".
 
-# :dart: Requirements
+# Requirements :dart:
 - Installation of the Java programming language.
 
-# :toolbox: How to run the shell?
+# How to run the shell? :toolbox:
 Open Fez.exe to start the terminal.
 
-# :notebook_with_decorative_cover: Built-in Functions
+# Built-in Functions :notebook_with_decorative_cover:
 | Function  | Description |
 | ------------- | ------------- |
 | print() | prints the value it is given |
@@ -19,7 +19,7 @@ Open Fez.exe to start the terminal.
 | min() | returns the smallest number out of two |
 | max() | returns the highest number out of two |
 
-# :pencil2: Syntax Quick Guide
+# Syntax Quick Guide :pencil2:
 | Name  | How to write |
 | ------------- | ------------- |
 | variable declaration | var [identifier] = [expression] |
@@ -35,7 +35,7 @@ Open Fez.exe to start the terminal.
 | if #1 | if ( [condition] ) [expression] |
 | if #2 | if ( [condition] ) { [statements] } |
 
-# :star2: The Brilliant Face of The Language - Fwog
+# The Brilliant Face of The Language - Fwog :star2:
 ```
 MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM
 MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM
